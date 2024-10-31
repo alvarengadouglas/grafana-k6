@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Set permissions on temp directory
-        run: apt update -y
+        run: apt update -y && apt install sudo -y && chmod -R 777 /__w/_temp
 
       - name: Checkout code
         uses: actions/checkout@v4
