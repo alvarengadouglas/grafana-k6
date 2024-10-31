@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Install Docker
         run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh ./get-docker.sh --dry-run
-          sudo systemctl start docker
-          sudo systemctl enable docker
+          # curl -fsSL https://get.docker.com -o get-docker.sh
+          # sudo sh ./get-docker.sh --dry-run
+          # sudo systemctl start docker
+          # sudo systemctl enable docker
           docker --version
 
       - name: Install k6
