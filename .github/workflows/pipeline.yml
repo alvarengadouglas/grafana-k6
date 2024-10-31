@@ -22,7 +22,7 @@ jobs:
           k6 run --vus 10 --duration 30s script.js
 
       - name: Upload test results as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: k6-test-results
           path: /home/k6/summary.html
