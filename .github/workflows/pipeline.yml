@@ -1,0 +1,28 @@
+name: K6 Performance Tests
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+
+jobs:
+  k6-test:
+    runs-on: ubuntu-latest
+
+    container:
+      image: grafana/k6
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run k6 performance tests
+        run: |
+          k6 run --vus 10 --duration 30s script.js
+
+      - name: Upload test results as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: k6-test-results
+          path: /home/k6/summary.html
