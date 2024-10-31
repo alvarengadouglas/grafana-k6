@@ -5,19 +5,20 @@ import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporte
 
 export function handleSummary(data) {
   return {
-    "summary.html": htmlReport(data),
+    "summary.html": htmlReport(data)
   }
 }
 
 export const options = {
   thresholds: {
       http_req_failed: ['rate<0.01'],
-      http_req_duration: ['p(95)<200'],
+      http_req_duration: ['p(99.9)<350'],
+      http_req_duration: ['p(95)<200']
   }
 }
 
 export default function () {
-  const response = http.get('http://test.k6.io')
-  check(response, {'Status was 200': (r) => r.status == 200})
+  const response = http.get('http://test.k6.io');
+  check(response, {'Status was 200': (r) => r.status == 200});
   sleep(1);
 }
