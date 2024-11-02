@@ -1,0 +1,40 @@
+name: K6 Performance Tests
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  k6-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Docker
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo sh ./get-docker.sh --dry-run
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          docker --version
+        
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run k6 performance tests
+        run: |
+          docker run -i --name k6-tests grafana/k6 run --vus 500 --duration 300s - <script.js
+
+
+      - name: Extract test results from container
+        run: |
+          docker cp k6-tests:/home/k6/summary.html ./                            
+      
+      - name: Upload test results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-test-results
+          path: ./summary.html
