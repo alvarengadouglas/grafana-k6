@@ -5,6 +5,8 @@ on:
     branches:
       - develop
   pull_request:
+    branches:
+      - main
 
 jobs:
   k6-test:
@@ -24,7 +26,8 @@ jobs:
 
       - name: Run k6 performance tests
         run: |
-          docker run -i --name k6-tests grafana/k6 run --vus 10 --duration 30s - <script.js
+          docker run -i --name k6-tests -v ./:/home/k6 grafana/k6 run --vus 500 --duration 300s script.js
+
 
       - name: Extract test results from container
         run: |
