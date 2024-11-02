@@ -26,15 +26,15 @@ jobs:
 
       - name: Run k6 performance tests
         run: |
-          docker run -i --name k6-tests -v ./:/home/k6 grafana/k6 run --vus 50 --duration 30s script.js
+          docker run -i --name k6-tests grafana/k6 run --vus 50 --duration 30s - <script.js
 
 
-      # - name: Extract test results from container
-      #   run: |
-      #     docker cp k6-tests:/home/k6/summary.html ./report                            
+      - name: Extract test results from container
+        run: |
+          docker cp k6-tests:/home/k6/summary.html ./                            
       
       - name: Upload test results as artifact
         uses: actions/upload-artifact@v4
         with:
           name: k6-test-results
-          path: ./report/summary.html
+          path: ./summary.html
